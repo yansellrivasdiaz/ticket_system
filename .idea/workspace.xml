@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f54b7d85-2a28-417b-88d1-1d4ab4bf53f1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -44,8 +42,8 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="391">
-                <caret line="71" selection-start-line="71" selection-end-line="71" />
+              <first_editor relative-caret-position="300">
+                <caret line="105" column="3" lean-forward="true" selection-start-line="105" selection-start-column="3" selection-end-line="105" selection-end-column="3" />
               </first_editor>
               <second_editor />
             </state>
@@ -344,12 +342,12 @@
       <workItem from="1564798697249" duration="20766000" />
       <workItem from="1564847674700" duration="6028000" />
       <workItem from="1564877334302" duration="27129000" />
-      <workItem from="1564940983587" duration="11755000" />
+      <workItem from="1564940983587" duration="12615000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="77261000" />
+    <option name="totallyTimeSpent" value="78121000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1359" y="-7" width="1295" height="695" extended-state="6" />
@@ -368,7 +366,7 @@
       <window_info anchor="bottom" id="Debug" order="7" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.31616342" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.312611" />
       <window_info anchor="bottom" id="TODO" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -705,8 +703,8 @@
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="391">
-            <caret line="71" selection-start-line="71" selection-end-line="71" />
+          <first_editor relative-caret-position="300">
+            <caret line="105" column="3" lean-forward="true" selection-start-line="105" selection-start-column="3" selection-end-line="105" selection-end-column="3" />
           </first_editor>
           <second_editor />
         </state>
