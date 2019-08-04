@@ -1,0 +1,57 @@
+<div class="modal" id="form-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-plus"></i> Time Entry Form
+                </h5>
+                <button type="reset" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body px-4">
+                <h3 class="w-100 py-0">Ticket Information</h3>
+                <div class="row">
+                    <div class="col-6 py-2">
+                        <span class="font-weight-bold h5">Ticket #:</span>
+                        <span class="ticketId h5"></span>
+                    </div>
+                    <div class="col-6 py-2">
+                        <span class="font-weight-bold h5">Date:</span>
+                        <span class="ticketDate h5"></span>
+                    </div>
+                    <div class="col-6 py-2">
+                        <span class="font-weight-bold h5">Subject:</span>
+                        <span class="ticketSubject h5"></span>
+                    </div>
+                    <div class="col-6 py-2">
+                        <span class="font-weight-bold h5">Status:</span>
+                        <span class="ticketStatus h5"></span>
+                    </div>
+                </div>
+                <h3 class="w-100 py-0 mt-3">Time Entry Information</h3>
+                <div class="row">
+                    <div class="col-md-8">
+                        <form action="{{ path('addnote') }}" method="post" id="form-note">
+                            <div class="form-group">
+                                <input type="hidden" name="noteId" value="0" id="noteId">
+                                <input type="hidden" name="ticketId" value="" id="ticketId">
+                                <input type="hidden" name="employeeId" id="employeeId"/>
+                                <label for="employeeName" class="font-weight-bold h5">Employee:</label>
+                                <input type="text" name="employeeName" class="form-control form-control-sm" required readonly value="" id="employeeName" placeholder="Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="note" class="font-weight-bold h5">Nota:</label>
+                                <textarea name="note" class="form-control form-control-sm" required placeholder="Add Note..." id="note" rows="4"></textarea>
+                            </div>
+                            <div class="form-group" style="position: relative;">
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                                <button type="reset" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

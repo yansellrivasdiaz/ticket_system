@@ -1,0 +1,64 @@
+{# app/Resources/views/Security/index.html.twig #}
+{% extends 'base.html.twig' %}
+{% block title %}{{ parent() }} | CREATE TICKET{% endblock %}
+{% block username %} {{ app.user.firstname ~ " " ~ app.user.lastname }} {% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 offset-md-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 mt-2">
+            <div class="card">
+                <div class="card-header text-left text-primary">
+                    <a href="{{ path('ticketpage') }}" class="close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                    <div class="h5"><i class="fas fa-ticket-alt fa-rotate-90"></i> Create Ticket</div>
+                </div>
+                {{ form_start(form,{'attr':{'class':'card-body'}})}}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {{ form_row(form.subject) }}
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {{ form_row(form.description) }}
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {{ form_row(form.employees) }}
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {{ form_row(form.status) }}
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="position: relative;">
+                        <div class="form-group">
+                            <div class="float-right">
+                                {% if form.vars.data.id is null %}
+                                    <button type="reset" class="btn btn-sm btn-warning"><i class="fas fa-eraser"></i> Reset</button>
+                                {% else %}
+                                    <a href="{{ path('ticketpage') }}" class="btn btn-danger btn-sm" >Cancel</a>
+                                {% endif %}
+                                <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-save"></i> Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('.employees_select').select2({
+                'placeholder':'Choose Employee(s)'
+            });
+            $('.status_select').select2({
+                'placeholder':'Choose Status'
+            });
+        });
+    </script>
+{% endblock %}

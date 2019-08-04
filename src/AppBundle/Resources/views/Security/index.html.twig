@@ -1,0 +1,75 @@
+{# app/Resources/views/Security/index.html.twig #}
+{% extends 'base.html.twig' %}
+{% block title %}{{ parent() }} | LOGIN{% endblock %}
+{% block menu %}{% endblock %}
+{% block body %}
+            <div class="card">
+                <div class="card-header text-center text-white bg-primary py-2"><div class="h5"><i class="fa fa-user-lock fa-lg"></i> Login</div></div>
+                {% if error %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>
+                            {{ error.messageKey|trans(error.messageData,'security') }}
+                        </strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+                <form id="form-login" action="{{ path('loginpage') }}" method="post" class="card-body">
+                    <div class="form-group">
+                        <label for="username">Username or email</label>
+                        <input type="text" class="form-control form-control-sm" autofocus="true" id="username" value="{{ last_username }}" name="_username" aria-describedby="usernameHelp" placeholder="Username or email" required>
+                    </div>
+                    <div class="form-group text-truncate">
+                        <label for="password" class="w-100">Password</label>
+                        <input type="password" class="form-control form-control-sm" name="_password" id="password" placeholder="Type your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-block btn-primary"><i class="fa fa-sign-in-alt fa-lg"></i> Signin</button>
+                </form>
+            </div>
+{% endblock %}
+{% block footer %}{% endblock %}
+{% block stylesheets %}
+    <style>
+        body{
+            background-image: url({{ asset('assets/img/Backgrounds-login.jpg') }});
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-clip: border-box;
+        }
+        .container-fluid{
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100%;
+            z-index: 0;
+            position: relative;
+        }
+        body:before{
+            content: "";
+            position: absolute;
+            top:0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255,255,255,0.5);
+            z-index: 0;
+        }
+        .card{
+            width: 350px;
+            min-height: 320px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            z-index: 1;
+        }
+        @media (min-width: 967px) {
+            .card{
+                position: relative !important;
+            }
+        }
+    </style>
+    {{ parent() }}
+{% endblock %}

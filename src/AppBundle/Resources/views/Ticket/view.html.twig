@@ -1,0 +1,130 @@
+{# app/Resources/views/Security/index.html.twig #}
+{% extends 'base.html.twig' %}
+{% block title %}{{ parent() }} | TICKET{% endblock %}
+{% block userName %} {{ app.user.firstName ~ " " ~ app.user.lastName }} {% endblock %}
+{% block body %}
+    {% include('@App/Modal/form-note-modal.html.twig') %}
+    <div class="row">
+        <div class="col-md-8 col-sm-8 col-12 offset-md-2 offset-sm-2">
+            <div class="card mt-2">
+                <div class="card-body pt-2">
+                    <a href="{{ path('ticketpage') }}" class="close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                    <div class="card-title text-primary"><div class="fas fa-info-circle fa-lg"></div> Ticket View</div>
+                    <hr>
+                    {% include('@App/Message/response.html.twig') %}
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                        <a href="{{ path('editticketpage',{id:ticket.id}) }}" title="Edit Current Ticket" class="btn btn-success"><i class="fa fa-edit"></i> Edit</a>
+                        <a href="{{ path('deleteticketpage',{id:ticket.id}) }}" onclick="if(!confirm('¿Surely you want to delete the ticket?'))return false;" title="Delete Current Ticket" class="btn btn-danger"><i class="fa fa-times"></i> Delete</a>
+                    </div>
+                    <div class="row body-card h6 text-truncate font-weight-bold px-2">
+                        <div class="col-sm-6 py-1 col-12">ID: <span class="text-monospace font-weight-light">{{ ticket.id }}</span></div>
+                        <div class="col-sm-6 py-1 col-12">Date: <span class="text-monospace font-weight-light">{{ ticket.createdAt | date('d/m/Y h:i a') }}</span></div>
+                        <div class="col-sm-6 py-1 col-12">User: <span class="text-monospace font-weight-light">{{ ticket.userId }}</span></div>
+                        <div class="col-sm-6 py-1 col-12">Status: <span class="text-monospace font-weight-light">{{ ticket.status }}</span></div>
+                    </div>
+                    <hr>
+                    <div class="row body-card h6 text-truncate font-weight-bold px-2">
+                        <div class="py-1 col-12">Subject <p class="text-monospace text-justify font-weight-light">{{ ticket.subject }}</p></div>
+                        <div class="py-1 col-12">Description <p class="text-monospace text-justify font-weight-light">{{ ticket.description }}</p></div>
+                        <div class="col-12 pt-2 font-weight-normal">
+                            <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="notes-tab" data-toggle="tab" href="#notes" role="tab" aria-controls="home" aria-selected="true">Time Entries</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="employees-tab" data-toggle="tab" href="#employees" role="tab" aria-controls="profile" aria-selected="false">Employee(s)</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="notes" role="tabpanel" aria-labelledby="notes-tab">
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-hover table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Employee</th>
+                                                    <th>Date</th>
+                                                    <th>Description</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% if notes | length > 0 %}
+                                                {% for note in notes %}
+                                                <tr>
+                                                    <td>{{ note.userId }}</td>
+                                                    <td>{{ note.createdAt | date('d/m/Y') }}</td>
+                                                    <td>{{ note.note }}</td>
+                                                    {% if note.userId.id ==  app.user.id %}
+                                                    <td>
+                                                        <a href="javascript:;" class="badge badge-primary py-1" onclick="editNote(this)" data-url="{{ path('updatenote',{ 'id': note.id }) }}" data-noteId="{{ note.id }}" data-note="{{ note.note }}" data-employeeid="{{ ticket.userId }}" data-employeefullname="{{ ticket.userId }}" data-ticketid="{{ ticket.id }}" data-ticketdate="{{ ticket.createdAt | date('d/m/Y h:s a') }}" data-ticketsubject="{{ ticket.subject }}" data-ticketstatus="{{ ticket.status }}"><span class="badge badge-info"><i class="fas fa-edit fa-lg"></i></span> Edit</a>
+                                                        <a href="{{ path('deletenote',{ticketid:ticket.id,noteid:note.id}) }}" onclick="if(!confirm('¿Surely you want to delete the Note?'))return false;" class="badge badge-danger py-1"><span class="badge badge-danger"><i class="fas fa-plus fa-lg"></i></span> Delete</a>
+                                                    </td>
+                                                    {% endif %}
+                                                </tr>
+                                                {% endfor %}
+                                                {% else %}
+                                                    <tr>
+                                                        <td colspan="4" class="text-center">Not Added yet...</td>
+                                                    </tr>
+                                                {% endif %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="employees" role="tabpanel" aria-labelledby="employees-tab">
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-hover table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>FirstName</th>
+                                                <th>LastName</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% if employees | length > 0 %}
+                                                {% for employee in employees %}
+                                                    <tr>
+                                                        <td>{{ employee.id }}</td>
+                                                        <td>{{ employee.firstname }}</td>
+                                                        <td>{{ employee.lastname }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                                <tr>
+                                                    <td colspan="3" class="text-center">Not Added yet...</td>
+                                                </tr>
+                                            {% endif %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        .body-card span{
+            text-decoration:underline;
+        }
+        .body-card p{
+            border:1px solid rgba(0,0,0,0.5);
+            padding: 5px 10px;
+            margin:0;
+            margin-top:5px;
+            border-radius: 5px;
+        }
+    </style>
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/app/ticket.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,102 @@
+{# app/Resources/views/Security/index.html.twig #}
+{% extends 'base.html.twig' %}
+{% block title %}{{ parent() }} | CREATE USER{% endblock %}
+{% block username %} {{ app.user.firstname ~ " " ~ app.user.lastname }} {% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 offset-md-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 mt-2 mb-5">
+            <div class="card mb-5">
+                <div class="card-header text-left text-primary">
+                    <a href="{{ path('employeepage') }}" class="close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                    <div class="h5">
+                        {% if form.vars.data.id is null %}
+                            <i class="fas fa-user-plus"></i>
+                            Create
+                        {% else %}
+                            <i class="fas fa-user-edit"></i>
+                            Update
+                        {% endif %} Employee
+                    </div>
+                </div>
+                {{ form_start(form,{'attr':{'class':'card-body'}})}}
+                {% if error_message is defined %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>
+                            <i class="fas fa-info-circle text-danger"></i> {{ error_message }}
+                        </strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_row(form.firstname) }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_row(form.lastname) }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {% if form.vars.data.id is null %}
+                            {{ form_row(form.username) }}
+                            {% else %}
+                            {{ form_row(form.username,{'attr':{'readonly':true}}) }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {% if form.vars.data.id is null %}
+                                {{ form_row(form.email) }}
+                            {% else %}
+                                {{ form_row(form.email,{'attr':{'readonly':true}}) }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_row(form.plainPassword.first) }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_row(form.plainPassword.second) }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_row(form.status) }}
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="position: relative;">
+                        <div class="form-group">
+                            <div class="float-right">
+                                {% if form.vars.data.id is null %}
+                                    <button type="reset" class="btn btn-sm btn-warning"><i class="fas fa-eraser"></i> Reset</button>
+                                {% else %}
+                                    <a href="{{ path('employeepage') }}" class="btn btn-danger btn-sm" >Cancel</a>
+                                {% endif %}
+                                <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-save"></i> Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('.employees_select').select2({
+                'placeholder':'Choose Employee(s)'
+            });
+        });
+    </script>
+{% endblock %}

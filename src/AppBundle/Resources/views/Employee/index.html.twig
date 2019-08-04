@@ -1,0 +1,76 @@
+{# app/Resources/views/Security/index.html.twig #}
+{% extends 'base.html.twig' %}
+{% block title %}{{ parent() }} | TICKET{% endblock %}
+{% block userName %} {{ app.user.firstName ~ " " ~ app.user.lastName }} {% endblock %}
+{% block body %}
+    <div class="card mt-2">
+        <div class="card-header pb-0 pt-2 text-primary">
+            <div class="card-title"><div class="fas fa-list fa-lg"></div> List of Employees</div>
+        </div>
+        <div class="card-body pt-2">
+            {% include('@App/Message/response.html.twig') %}
+            <div class="row py-0">
+                <div class="col-md-12 py-0">
+                    <a href="{{ path('createemployeepage') }}" class="btn btn-primary float-right btn-sm mb-2"><i class="fas fa-plus fa-lg"></i> Create Employee</a>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover table-sm table-striped">
+                    <thead>
+                    <tr>
+                        <th>{{ knp_pagination_sortable(employees, '#', 'e.id') }}</th>
+                        <th>{{ knp_pagination_sortable(employees, 'FirstName', 'e.firstname') }}</th>
+                        <th>{{ knp_pagination_sortable(employees, 'LastName', 'e.lastname') }}</th>
+                        <th>{{ knp_pagination_sortable(employees, 'UserName', 'e.username') }}</th>
+                        <th>{{ knp_pagination_sortable(employees, 'Email', 'e.email') }}</th>
+                        <th>{{ knp_pagination_sortable(employees, 'CreatedAt', 'e.createdAt') }}</th>
+                        <th>{{ knp_pagination_sortable(employees, 'Status', 'e.status') }}</th>
+                        <th class="text-primary">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if employees | length > 0 %}
+                        {% for employee in employees %}
+                            <tr>
+                                <td>{{ employee.id }}</td>
+                                <td>{{ employee.firstname }}</td>
+                                <td>{{ employee.lastname }}</td>
+                                <td>{{ employee.username }}</td>
+                                <td>{{ employee.email }}</td>
+                                <td>{{ employee.createdAt | date('d/m/Y') }}</td>
+                                <td>{{  employee.status }}</td>
+                                <td width="18%">
+                                    <a href="{{ path('viewemployeepage',{id:employee.id}) }}" class="badge badge-success py-1"><span class="badge badge-success"><i class="fas fa-eye fa-lg"></i></span> View</a>
+                                    <a href="{{ path('editemployeepage',{id:employee.id}) }}" class="badge badge-primary py-1"><span class="badge badge-info"><i class="fas fa-edit fa-lg"></i></span> Edit</a>
+                                    {%  if app.user.id != employee.id %}
+                                        {% if employee.status == 'Active' %}
+                                            <a title="Lock Employee" href="{{ path('deleteemployeepage',{id:employee.id}) }}" class="badge badge-danger py-1"><span class="badge badge-danger"><i class="fas fa-times-circle fa-lg"></i></span> Lock</a>
+                                        {% else %}
+                                            <a title="Activate Employee" href="{{ path('activeemployeepage',{id:employee.id}) }}" class="badge badge-success py-1"><span class="badge badge-success"><i class="fas fa-check-circle fa-lg"></i></span> Active</a>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center h5">0 Result</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+                <div class="navigation">
+                    {{ knp_pagination_render(employees) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        .card{
+            min-height: 75vh;
+        }
+    </style>
+    {{ parent() }}
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block menu %}{% endblock %}
+
+{% block body %}
+
+
+
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .container-fluid{
+            background-image: url({{ asset('assets/img/Backgrounds-login.jpg') }});
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-clip: border-box;
+            min-height: 100vh;
+            min-width: 100%;
+            z-index: -1;
+        }
+        .container-fluid:before{
+            content: "";
+            position: absolute;
+            top:0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(255,255,255,0.3);
+        }
+    </style>
+    {{ parent() }}
+{% endblock %}
+

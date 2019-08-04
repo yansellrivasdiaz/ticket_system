@@ -1,0 +1,96 @@
+{# app/Resources/views/Security/index.html.twig #}
+{% extends 'base.html.twig' %}
+{% block title %}{{ parent() }} | TICKET REPORT{% endblock %}
+{% block userName %} {{ app.user.firstName ~ " " ~ app.user.lastName }} {% endblock %}
+{% block body %}
+    {% include('@App/Modal/form-note-modal.html.twig') %}
+    <div class="card mt-2">
+        <div class="card-header pb-0 pt-2 text-primary">
+            <div class="card-title"><div class="fas fa-list fa-lg"></div> Report</div>
+        </div>
+        <div class="card-body pt-2">
+            {% include('@App/Message/response.html.twig') %}
+            <div class="row py-0">
+                <div class="col-md-12 py-0">
+                    <div class="float-right">
+                        <form action="{{ path('reportpage') }}" method="post">
+                            <div class="form-inline py-2">
+                               from <input type="date" name="_startdate" class="form-control form-control-sm mx-2" value="{{ startdate }}">
+                               to <input type="date" name="_enddate" class="form-control form-control-sm mx-2" value="{{ enddate }}">
+                                <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-sync"></i> Generate</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover table-sm table-striped" id="ticket-report">
+                    <thead>
+                    <tr>
+                        <th>{{ knp_pagination_sortable(tickets, 'Ticket#', 't.id') }}</th>
+                        <th class="text-primary"><i class="fas fa-user"></i> Employee(s)</th>
+                        <th class="text-primary"><i class="fas fa-sticky-note"></i> Note</th>
+                        <th><i class="fas fa-calendar-alt text-primary"></i> {{ knp_pagination_sortable(tickets, 'Date Start', 't.createdAt') }}</th>
+                        <th><i class="fas fa-calendar-alt text-primary"></i> {{ knp_pagination_sortable(tickets, 'Date End', 't.endedAt') }}</th>
+                        <th><i class="fas fa-clock text-primary"></i> {{ knp_pagination_sortable(tickets, 'Hour(s)', 't.timehours') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% set total = 0 %}
+                    {% if tickets | length > 0 %}
+                        {% for ticket in tickets %}
+                            {% set total = total + ticket.timehours %}
+                            <tr>
+                                <td>{{ ticket.id }}</td>
+                                <td>
+                                    {% for employee in ticket.employees %}
+                                        {{ employee.firstname ~" "~ employee.lastname }}
+                                        {% if not loop.last %},{% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>{{ ticket.subject }}</td>
+                                <td>{{ ticket.createdAt | date('d/m/Y h:s a') }}</td>
+                                <td>
+                                    {% if ticket.endedAt is not null %}
+                                        {{ ticket.endedAt | date('d/m/Y h:s a') }}
+                                    {% else %}
+                                        N/O
+                                    {% endif %}
+                                </td>
+                                <td>{{ ticket.timehours | number_format(2, '.', ',') }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center">0 Result...</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                    <tfoot class="bg-secondary text-white">
+                        <tr>
+                            <th colspan="5" class="text-right font-weight-bold">Total:</th>
+                            <th>
+                                {{ total | number_format(2,'.',',') }}
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="navigation">
+                    {{ knp_pagination_render(tickets) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        .card{
+            min-height: 75vh;
+        }
+    </style>
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/app/ticket.js') }}"></script>
+{% endblock %}
