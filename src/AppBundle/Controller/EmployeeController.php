@@ -96,6 +96,11 @@ class EmployeeController extends Controller
      */
     public function editemployeeAction(Request $request,User $employee,UserPasswordEncoderInterface $passwordEncoder)
     {
+        if($this->getUser()->getId() == $employee->getId()){
+            if($request->get('status') != $employee->getStatus()){
+                $request->request->set('status',$employee->getStatus());
+            }
+        }
         // 1) build the form
         $form = $this->createForm(UserType::class, $employee);
         // 2) handle the submit (will only happen on POST)
@@ -118,6 +123,10 @@ class EmployeeController extends Controller
      */
     public function deleteemployeeAction(Request $request,User $employee)
     {
+        if($this->getUser()->getId() == $employee->getId()){
+            $this->addFlash('error','Unauthorized');
+            return $this->redirectToRoute('employeepage');
+        }
         try{
             $entityManager = $this->getDoctrine()->getManager();
             $employee->setStatus('Inactive');

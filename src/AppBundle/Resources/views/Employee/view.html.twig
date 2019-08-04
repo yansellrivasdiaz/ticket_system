@@ -16,7 +16,9 @@
                     {% include('@App/Message/response.html.twig') %}
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                         <a href="{{ path('editemployeepage',{id:employee.id}) }}" title="Edit Current Ticket" class="btn btn-success"><i class="fa fa-edit"></i> Edit</a>
-                        <a href="{{ path('deleteemployeepage',{id:employee.id}) }}" onclick="if(!confirm('¿Surely you want to delete the employee?'))return false;" title="Delete Current Employee" class="btn btn-danger"><i class="fa fa-times"></i> Delete</a>
+                        {% if app.user.id != employee.id %}
+                            <a href="{{ path('deleteemployeepage',{id:employee.id}) }}" onclick="if(!confirm('¿Surely you want to delete the employee?'))return false;" title="Delete Current Employee" class="btn btn-danger"><i class="fa fa-times"></i> Delete</a>
+                        {% endif %}
                     </div>
                     <div class="row body-card h6 text-truncate font-weight-bold px-2">
                         <div class="col-sm-12 py-1 col-12">First Name: <span class="text-monospace font-weight-light">{{ employee.firstname }}</span></div>
@@ -67,7 +69,7 @@
                                                 {% endfor %}
                                             {% else %}
                                                 <tr>
-                                                    <td colspan="4" class="text-center">Not Added yet...</td>
+                                                    <td colspan="6" class="text-center">Not Added yet...</td>
                                                 </tr>
                                             {% endif %}
                                             </tbody>
