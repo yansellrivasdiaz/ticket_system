@@ -23,12 +23,11 @@ Instalación de la Aplicación:
      
      * **Composer install**
      * **Editar archivo ***app/config/parameters.yml*** 
-     y cambiar los parámetros de conexión a la base de datos (***Nota: solo si no agregaste los parametros al momento de ejecutar composer install***) 
-     parametros**
-     * **php bin/console doctrine:database:create.**
+     y cambiar los parámetros de conexión a la base de datos (***Nota: solo si no agregaste los parametros al momento de ejecutar composer install***)**
+     * **php bin/console doctrine:database:create**
      * **php bin/console doctrine:schema:update --force**
      * **php bin/console doctrine:fixtures:load** ***(Nota: una vez ejecute el comando saldrá: Careful, database will bu purged. Do you want to continue? (yes/no) [no]: yes*** y luego darle a enter).
-     * **php bin/console cache:clear —env=prod** (Para limpiar la cache del modo produccion)
+     * **php bin/console cache:clear --env=prod** (Para limpiar la cache del modo produccion)
      
    * Ahora puedes acceder a la ruta del proyecto ruta:
     127.0.0.1(o Nombre del servidor)/ticket_system.
