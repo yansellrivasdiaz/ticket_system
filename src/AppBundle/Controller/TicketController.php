@@ -46,6 +46,10 @@ class TicketController extends Controller
     {
         $tickets = $this->getDoctrine()->getManager()->getRepository(Ticket::class)->getByDateRange($startdate,$enddate)->getResult();
         $rows = array();
+        $data = array(
+          "Ticket#","Employee(s)","Note","Date Start","Date End","Hour(s)"
+        );
+        $rows[] = implode(',', $data);
         foreach ($tickets as $ticket) {
             $endedat = $ticket->getEndedAt();
             $data = array($ticket->getId(), $ticket->getUserId(), $ticket->getSubject(), $ticket->getCreatedAt()->format('Y-m-d H:i a'), isset($endedat)?$ticket->getEndedAt()->format('Y-m-d H:i a'):"N/O", number_format($ticket->getTimeHours(),3,'.',','));
