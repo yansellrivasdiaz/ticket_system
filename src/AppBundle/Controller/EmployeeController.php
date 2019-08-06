@@ -107,7 +107,7 @@ class EmployeeController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // 4) save the User!
-            $employee->setPassword($passwordEncoder->encodePassword($employee,$employee->getPlainPassword()));
+            if($employee->getPlainPassword() != "")$employee->setPassword($passwordEncoder->encodePassword($employee,$employee->getPlainPassword()));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
             return $this->redirectToRoute('employeepage');

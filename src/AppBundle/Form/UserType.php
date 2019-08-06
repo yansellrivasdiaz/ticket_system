@@ -8,9 +8,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\ResetType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
@@ -31,6 +30,7 @@ class UserType extends AbstractType
             ])
             ->add('lastname',TextType::class,[
                 "label"=>"Last Name:",
+                'required'=>false,
                 "attr"=>[
                     "class"=>"form-control form-control-sm",
                     "placeholder"=>"Last Name"
@@ -52,6 +52,7 @@ class UserType extends AbstractType
             ])
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
+                'required'=>is_null($builder->getData()->getId()),
                 'first_options'  => [
                     'label' => 'Password',
                     "attr"=>[
@@ -79,6 +80,19 @@ class UserType extends AbstractType
                     'Inactive' => 'Inactive'
                 ],
             ]);
+    }
+
+
+    public function determineRequired(FormEvent $event)
+    {
+        $userForm = $event->getForm();
+
+        if (!$userForm->getParent()->getData()->getId()) {
+            /** @var $formConfig FormBuilderInterface */
+            $formConfig = $userForm->getConfig();
+
+            $formConfig->setRequired(true);
+        }
     }
     
     /**

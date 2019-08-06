@@ -18,6 +18,9 @@
                                from <input type="date" name="_startdate" class="form-control form-control-sm mx-2" value="{{ startdate }}">
                                to <input type="date" name="_enddate" class="form-control form-control-sm mx-2" value="{{ enddate }}">
                                 <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-sync"></i> Generate</button>
+                                {% if tickets | length > 0 %}
+                                    <a href="{{ path('exportexcelpage',{startdate:startdate,enddate:enddate}) }}" title="Export to CSV" class="btn btn-success btn-sm ml-2"><i class="fas fa-file-csv"></i> Export</a>
+                                {% endif %}
                             </div>
                         </form>
                     </div>
@@ -57,7 +60,7 @@
                                         N/O
                                     {% endif %}
                                 </td>
-                                <td>{{ ticket.timehours | number_format(2, '.', ',') }}</td>
+                                <td>{{ ticket.timehours | number_format(3, '.', ',') }}</td>
                             </tr>
                         {% endfor %}
                     {% else %}
@@ -70,7 +73,7 @@
                         <tr>
                             <th colspan="5" class="text-right font-weight-bold">Total:</th>
                             <th>
-                                {{ total | number_format(2,'.',',') }}
+                                {{ total | number_format(3,'.',',') }}
                             </th>
                         </tr>
                     </tfoot>

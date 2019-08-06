@@ -4,8 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Note;
 use AppBundle\Entity\Ticket;
-use AppBundle\Form\NoteType;
 use AppBundle\Form\TicketType;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,6 +35,24 @@ class TicketController extends Controller
         return $this->render('@App/Ticket/index.html.twig',[
             "tickets"=>$result
         ]);
+    }
+
+    /**
+     *  @Route("/report/export/excel/{startdate}/{enddate}", name="exportexcelpage")
+     */
+    public function exportExcelAction(Request $request,$startdate=null,$enddate=null)
+    {
+        $tickets = $this->getDoctrine()->getManager()->getRepository(Ticket::class)->getByDateRange($startdate,$enddate)->getResult();
+        $rows = array();
+        foreach ($tickets as $ticket) {
+            $endedat = $ticket->getEndedAt();
+            $data = array($ticket->getId(), $ticket->getUserId(), $ticket->getSubject(), $ticket->getCreatedAt()->format('Y-m-d H:i a'), isset($endedat)?$ticket->getEndedAt()->format('Y-m-d H:i a'):"N/O", number_format($ticket->getTimeHours(),3,'.',','));
+            $rows[] = implode(',', $data);
+        }
+        $content = implode("\n", $rows);
+        $response = new Response($content);
+        $response->headers->set('Content-Type', 'text/csv');
+        return $response;
     }
 
     /**
