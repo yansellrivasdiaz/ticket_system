@@ -27,7 +27,8 @@ Instalación de la Aplicación:
      parametros**
      * **php bin/console doctrine:database:create.**
      * **php bin/console doctrine:schema:update --force**
-     * **php bin/console doctrine:fixtures:load** ***Nota: una vez ejecute el comando saldrá: Careful, database will bu purged. Do you want to continue? (yes/no) [no]: yes*** y luego darle a enter
+     * **php bin/console doctrine:fixtures:load** ***(Nota: una vez ejecute el comando saldrá: Careful, database will bu purged. Do you want to continue? (yes/no) [no]: yes*** y luego darle a enter).
+     * **php bin/console cache:clear —env=prod** (Para limpiar la cache del modo produccion)
      
    * Ahora puedes acceder a la ruta del proyecto ruta:
     127.0.0.1(o Nombre del servidor)/ticket_system.
@@ -37,7 +38,7 @@ Instalación de la Aplicación:
     * username: admin (Email: admin@admin.com) 
     * Password: admin    
 
-Felicidades si todo salió bien ya puedes empezar a utilizar la App
+Felicidades si todo salió bien ya puedes empezar a utilizar la App.
 Ticket System.
 ---------------------------------------------------------------
 **Documentación:**
