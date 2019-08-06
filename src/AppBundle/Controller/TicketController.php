@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Date;
+
 /**
  * @Route("/ticket")
  */
@@ -49,9 +51,15 @@ class TicketController extends Controller
             $data = array($ticket->getId(), $ticket->getUserId(), $ticket->getSubject(), $ticket->getCreatedAt()->format('Y-m-d H:i a'), isset($endedat)?$ticket->getEndedAt()->format('Y-m-d H:i a'):"N/O", number_format($ticket->getTimeHours(),3,'.',','));
             $rows[] = implode(',', $data);
         }
+        $fileName = "TICKETS_";
+        if($startdate!=null)$fileName.=date_create($startdate)->format('dmY')."_";
+        if($enddate!=null)$fileName.=date_create($enddate)->format('dmY');
+        $time = new \DateTime();
+        if($startdate == null && $enddate == null)$fileName.=$time->format('dmY');
         $content = implode("\n", $rows);
         $response = new Response($content);
         $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="'.$fileName.'.csv"');
         return $response;
     }
 
