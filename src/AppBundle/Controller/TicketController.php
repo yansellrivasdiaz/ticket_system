@@ -211,11 +211,12 @@ class TicketController extends Controller
             $ticket->setStatus('Close');
             $now = new \DateTime();
             $diff = $now->diff($ticket->getCreatedAt());
+            $daytoHour = (double)($diff->days * 24);
             $hours = $diff->h;
-            $minutes = $diff->i;
-            $hours = (double) $hours + (double) ($diff->days * 24) + (double) ($minutes/60);
+            $minutes = (double)($diff->i /60) + (double) ($diff->s/60/60);
+            $totaltime = (double)$hours + (double)$daytoHour + (double)$minutes;
             $ticket->setEndedAt(new \DateTime());
-            $ticket->setTimehours($hours);
+            $ticket->setTimehours($totaltime);
             $em->persist($ticket);
             $em->flush();
             // replace this example code with whatever you need
